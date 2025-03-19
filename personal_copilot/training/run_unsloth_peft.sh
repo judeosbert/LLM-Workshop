@@ -1,7 +1,7 @@
 CUDA_VISIBLE_DEVICES=0 WANDB_PROJECT=personal-code-copilot python train.py \
 --seed 11 \
---model_name_or_path "codellama/CodeLlama-7b-Instruct-hf" \
---dataset_name "smangrul/hug_stack" \
+--model_name_or_path "microsoft/Phi-3-small-8k-instruct" \
+--dataset_name "judeosbert/hf-codegen-v2" \
 --splits "train" \
 --max_seq_len 2048 \
 --max_steps 2000 \

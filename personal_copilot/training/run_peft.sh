@@ -1,8 +1,8 @@
-python -m torch_xla.distributed.xla_spawn --num_processes=8 train.py \
+CUDA_VISIBLE_DEVICES=0 python train.py \
 --model_name_or_path "codellama/CodeLlama-7b-Instruct-hf" \
 --dataset_name "judeosbert/hf-codegen-v2" \
 --splits "train" \
---max_seq_len 2048 \
+--max_seq_len 1024 \
 --max_steps 2000 \
 --save_steps 500 \
 --eval_steps 100 \
@@ -21,9 +21,9 @@ python -m torch_xla.distributed.xla_spawn --num_processes=8 train.py \
 --warmup_ratio 0.1 \
 --max_grad_norm 1.0 \
 --output_dir "codellama-hugcoder" \
---per_device_train_batch_size 8 \  # TPU can handle larger batch sizes
---per_device_eval_batch_size 8 \
---gradient_accumulation_steps 4 \
+--per_device_train_batch_size 16 \
+--per_device_eval_batch_size 16 \
+--gradient_accumulation_steps 2 \
 --gradient_checkpointing True \
 --use_reentrant True \
 --dataset_text_field "content" \
@@ -31,9 +31,11 @@ python -m torch_xla.distributed.xla_spawn --num_processes=8 train.py \
 --fim_rate 0.5 \
 --fim_spm_rate 0.5 \
 --use_peft_lora True \
---lora_r 32 \
+--lora_r 16 \
 --lora_alpha 64 \
 --lora_dropout 0.1 \
---lora_target_modules "all-linear" \
---use_4bit_quantization False \  # TPU does not support bitsandbytes 4-bit quantization
---use_flash_attn False  # Flash Attention is GPU-only
+--lora_target_modules "q_proj,k_proj,v_proj,o_proj" \
+--use_4bit_quantization True \
+--use_nested_quant False \
+--bnb_4bit_compute_dtype "bfloat16" \
+--use_flash_attn False

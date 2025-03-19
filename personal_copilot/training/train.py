@@ -434,7 +434,7 @@ def main(model_args, data_args, training_args):
     set_seed(training_args.seed)
 
     # load the tokenizer
-    tokenizer = AutoTokenizer.from_pretrained(model_args.model_name_or_path)
+    tokenizer = AutoTokenizer.from_pretrained(model_args.model_name_or_path,trust_remote_code=True)
 
     # load the datasets
     train_dataset, eval_dataset = create_datasets(

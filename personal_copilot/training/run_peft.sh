@@ -1,5 +1,5 @@
 CUDA_VISIBLE_DEVICES=0 python train.py \
---model_name_or_path "codellama/CodeLlama-7b-Instruct-hf" \
+--model_name_or_path "microsoft/Phi-3-small-8k-instruct" \
 --dataset_name "judeosbert/hf-codegen-v2" \
 --splits "train" \
 --max_seq_len 1024 \

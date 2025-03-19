@@ -307,7 +307,7 @@ def error_report(x, y):
 def loftq_init(model, tokenizer, train_dataset, max_seq_length, args):
     if args.use_loftq_callback:
         compute_dtype = getattr(torch, args.bnb_4bit_compute_dtype)
-        base_model = AutoModelForCausalLM.from_pretrained(args.model_name_or_path, torch_dtype=compute_dtype)
+        base_model = AutoModelForCausalLM.from_pretrained(args.model_name_or_path, torch_dtype=compute_dtype,trust_remote_code=True)
         base_model.resize_token_embeddings(len(tokenizer), pad_to_multiple_of=8)
         random_input_ids = torch.randint(0, len(train_dataset), size=(1,)).numpy().tolist()
         random_inputs = [train_dataset[i]['content'] for i in random_input_ids]

@@ -136,7 +136,7 @@ def chars_token_ratio(dataset, tokenizer, data_column, nb_examples=400):
     total_characters, total_tokens = 0, 0
     for _, example in tqdm(zip(range(nb_examples), iter(dataset)), total=nb_examples):
         total_characters += len(example[data_column])
-        total_tokens += len(tokenizer(example[data_column]).tokens())
+        total_tokens += len(tokenizer.tokenize(example[data_column]))
 
     return total_characters / total_tokens
 

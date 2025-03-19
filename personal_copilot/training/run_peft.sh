@@ -1,4 +1,4 @@
-CUDA_VISIBLE_DEVICES=0 python train.py \
+python -m torch_xla.distributed.xla_spawn --num_processes=8 train.py \
 --model_name_or_path "codellama/CodeLlama-7b-Instruct-hf" \
 --dataset_name "judeosbert/hf-codegen-v2" \
 --splits "train" \
@@ -21,8 +21,8 @@ CUDA_VISIBLE_DEVICES=0 python train.py \
 --warmup_ratio 0.1 \
 --max_grad_norm 1.0 \
 --output_dir "codellama-hugcoder" \
---per_device_train_batch_size 16 \
---per_device_eval_batch_size 16 \
+--per_device_train_batch_size 8 \  # TPU can handle larger batch sizes
+--per_device_eval_batch_size 8 \
 --gradient_accumulation_steps 4 \
 --gradient_checkpointing True \
 --use_reentrant True \
@@ -35,7 +35,5 @@ CUDA_VISIBLE_DEVICES=0 python train.py \
 --lora_alpha 64 \
 --lora_dropout 0.1 \
 --lora_target_modules "all-linear" \
---use_4bit_quantization True \
---use_nested_quant True \
---bnb_4bit_compute_dtype "bfloat16" \
---use_flash_attn False
+--use_4bit_quantization False \  # TPU does not support bitsandbytes 4-bit quantization
+--use_flash_attn False  # Flash Attention is GPU-only

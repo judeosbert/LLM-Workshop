@@ -1,4 +1,4 @@
-CUDA_VISIBLE_DEVICES=0 WANDB_PROJECT=personal-code-copilot python train.py \
+CUDA_VISIBLE_DEVICES=0 python train.py \
 --model_name_or_path "codellama/CodeLlama-7b-Instruct-hf" \
 --dataset_name "judeosbert/hf-codegen-v2" \
 --splits "train" \
